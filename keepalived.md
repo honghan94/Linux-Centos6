@@ -25,19 +25,19 @@ start keepalived
 ### Server01 script
 ```
 vrrp_script chk_haproxy {
-    script "/home/keepalived/check.sh"
+    script "/home/keepalived/check.sh" #script to check is the monitored process still running
     interval 2
 }
 
 vrrp_instance VI_1 {
     interface eth0
     state MASTER
-    priority 200
+    priority 200 #higher will be master
 
     virtual_router_id 50
-    unicast_src_ip 10.0.0.11
+    unicast_src_ip 10.0.0.11 #the server ip
     unicast_peer {
-        10.0.0.12
+        10.0.0.12 #other server's ip
     }
 
     authentication {
@@ -50,7 +50,7 @@ vrrp_instance VI_1 {
     }
 
     virtual_ipaddress {
-        10.0.0.10/24
+        10.0.0.10/24 #the virtual ip, make sure it is same on both server and use an unused ip
     }
 }
 ```
@@ -58,19 +58,19 @@ vrrp_instance VI_1 {
 ### Server02 script
 ```
 vrrp_script chk_haproxy {
-    script "/home/keepalived/check.sh"
+    script "/home/keepalived/check.sh" #script to check is the monitored process still running
     interval 2
 }
 
 vrrp_instance VI_1 {
     interface eth0
     state BACKUP
-    priority 100
+    priority 100  #lower will be slave
 
     virtual_router_id 50
-    unicast_src_ip 10.0.0.12
+    unicast_src_ip 10.0.0.12 #the server ip
     unicast_peer {
-        10.0.0.11
+        10.0.0.11 #other server's ip
     }
 
     authentication {
@@ -83,7 +83,7 @@ vrrp_instance VI_1 {
     }
 
     virtual_ipaddress {
-        10.0.0.10/24
+        10.0.0.10/24 #the virtual ip
     }
 }
 ```
