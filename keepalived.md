@@ -55,7 +55,7 @@ vrrp_instance VI_1 {
 }
 ```
 
-### Server01 script
+### Server02 script
 ```
 vrrp_script chk_haproxy {
     script "/home/keepalived/check.sh"
